@@ -15,8 +15,6 @@ public class Senser extends Observable implements Runnable {
 
 	private String getSentence() {
 		String list = server.getPlaneListAsString();
-		System.out.println(list);
-
 		return list;
 	}
 
@@ -26,13 +24,12 @@ public class Senser extends Observable implements Runnable {
 		String aircraftList;
 		
 		//TODO: Create factory and display object 
-
-		int i = 0;
+		AircraftSentenceFactory factory = new AircraftSentenceFactory();
+		AircraftSentenceDisplay display = new AircraftSentenceDisplay();
+		
 		while (true)
 		{
-			i++;
 			aircraftList = getSentence();
-			System.out.println(i);
 			
 			if(aircraftList == null || aircraftList.length() == 0) {
 				continue;
@@ -40,14 +37,15 @@ public class Senser extends Observable implements Runnable {
 			else {
 			
 			//TODO: get aircraft list from factory and display plane jsons 
-				AircraftSentenceFactory factory = new AircraftSentenceFactory();
-				//jsonAircraftList = factory.fromAircraftJson(aircraftList);
+				
+				jsonAircraftList = factory.fromAircraftJson(aircraftList);
 			
 				if (lab1) { 
 					System.out.println("Current Aircrafts in range " + jsonAircraftList.size());
 				}
-				for( ...)
+				for(int i = 0; i < jsonAircraftList.size(); i++)
 				{
+					AircraftSentence sentence = jsonAircraftList.get(i);
 					// Display the sentence in Lab 1; disable for other labs
 					if (lab1) { 
 						display.display(sentence);

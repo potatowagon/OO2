@@ -10,9 +10,9 @@ public class AircraftSentenceFactory
 		// and store them in an ArrayList
 		ArrayList<AircraftSentence> aircraftList = new ArrayList<AircraftSentence>();
 		
-		String[] seperated = jsonAircraftList.split("/{(.*?)}/g");
+		String[] seperated = jsonAircraftList.split("},");
 		for(String p: seperated){
-			p = p.substring(1, p.length() - 2);
+			p = p.substring(1, p.length() - 1);
 			aircraftList.add(new AircraftSentence(p));
 		}
 		return aircraftList;
