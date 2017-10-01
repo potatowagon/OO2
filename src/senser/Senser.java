@@ -6,7 +6,7 @@ import java.util.Observable;
 import jsonstream.*;
 
 public class Senser extends Observable implements Runnable {
-	private static boolean lab1 = true;
+	private static boolean lab1 = false;
 	PlaneDataServer server;
 
 	public Senser(PlaneDataServer server) {
