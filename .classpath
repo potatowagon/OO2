@@ -4,5 +4,9 @@
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/json-20140107.jar"/>
 	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/jsonstream.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/GMapsFX-2.12.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/logback-classic-1.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/logback-core-1.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/slf4j-api-1.7.23.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
