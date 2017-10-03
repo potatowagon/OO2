@@ -16,8 +16,19 @@ public class BasicAircraft {
 	
 	//TODO: Create constructor
 
-	//TODO: Create relevant getter methods
+	public BasicAircraft(String icao, String operator, Integer species, Date posTime, Coordinate co, Double speed, Double trak, Integer altitude) {
+		this.icao = icao;
+		this.operator = operator;
+		this.species = species;
+		this.posTime = posTime;
+		this.coordinate = co;
+		this.speed = speed;
+		this.trak = trak;
+		this.altitude = altitude;
+	}
 
+	//TODO: Create relevant getter methods
+	
 	//TODO: Lab 4-6 return attribute names and values for table
 	public static ArrayList<String> getAttributesNames()
 	{
@@ -30,4 +41,10 @@ public class BasicAircraft {
 	}
 
 	//TODO: Overwrite toString() method to print fields
+
+	@Override
+	public String toString() {
+		String out = "BasicAircraft [icao=" + this.icao + ", operator=" + this.operator + ", species=" + this.species + ", posTime=" + this.posTime.toString() + ", coordinate=" + this.coordinate.toString() + ", speed=" + this.speed + ", trak=" + this.trak + ", altitude=" + this.altitude + "]";
+		return out;  
+	}
 }

@@ -1,7 +1,9 @@
 package messer;
 
 import java.util.Date;
-import java.util.regex.*;
+
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import senser.AircraftSentence;
 
@@ -23,21 +25,69 @@ import senser.AircraftSentence;
 
 public class AircraftFactory {
 
-	public BasicAircraft fromAircraftSentence ( AircraftSentence sentence ) {
-		String icao = null;
-		String operator = null;
-		int species = 0;
-		Date posTime = null;
-		double longitude = 0;
-		double latitude = 0;
+	public BasicAircraft fromAircraftSentence(AircraftSentence sentence) {
+		String icao = null; 
+		String operator = null; 
+		int species = 0; 
+		Date posTime = null; 
+		double longitude = 0; 
+		double latitude = 0; 
 		double speed = 0;
-		double trak = 0;
-		int altitude = 0;
+		double trak = 0; 
+		int altitude = 0; 
 
 		// TODO: Your code goes here
-		
-		BasicAircraft msg = new BasicAircraft(icao, operator, species, posTime, new Coordinate(latitude, longitude), speed, trak, altitude);
-		
+		JSONObject jsonObj = new JSONObject(sentence.toString());
+		try {
+			icao = (String) jsonObj.get("Icao");
+		} catch (JSONException e) {
+			icao = null;
+		}
+		try {
+			operator = (String) jsonObj.get("Op");
+		} catch (JSONException e) {
+			operator = null;
+		}
+		try {
+			species = (int) jsonObj.get("Species");
+		} catch (JSONException e) {
+			species = 0;
+		}
+		try {
+			long longTime = (long) jsonObj.get("PosTime");
+			posTime = new Date(longTime);
+		} catch (JSONException e) {
+			posTime = null;
+		}
+		try {
+			speed = jsonObj.getDouble("Spd");
+		} catch (JSONException e) {
+			speed = 0;
+		}
+		try {
+			longitude = jsonObj.getDouble("Long");
+		} catch (JSONException e) {
+			longitude = 0;
+		}
+		try {
+			latitude = jsonObj.getDouble("Lat");
+		} catch (JSONException e) {
+			latitude = 0;
+		}
+		try {
+			trak = jsonObj.getDouble("Trak");
+		} catch (JSONException e) {
+			trak = 0;
+		}
+		try {
+			altitude = jsonObj.getInt("Alt");
+		} catch (JSONException e) {
+			altitude = 0;
+		}
+
+		BasicAircraft msg = new BasicAircraft(icao, operator, species, posTime, new Coordinate(latitude, longitude),
+				speed, trak, altitude);
+
 		return msg;
 	}
 }
