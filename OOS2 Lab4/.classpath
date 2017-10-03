@@ -2,12 +2,12 @@
 <classpath>
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
-	<classpathentry kind="lib" path="C:/Users/Warendorf/Eclipse/eclipse/dropins/json-20140107.jar"/>
-	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_45/jre/lib/jfxswt.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Warendorf/workspace2/GMapsFX jars/GMapsFX-2.12.0.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Warendorf/workspace2/GMapsFX jars/logback-classic-1.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Warendorf/workspace2/GMapsFX jars/logback-core-1.2.1.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Warendorf/workspace2/GMapsFX jars/slf4j-api-1.7.23.jar"/>
-	<classpathentry kind="lib" path="C:/Users/Warendorf/OneDrive/Documents/HE/OOS1/jars/jsonstream.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/GMapsFX-2.12.0.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/json-20140107.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/jsonstream.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/logback-classic-1.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/logback-core-1.2.1.jar"/>
+	<classpathentry kind="lib" path="C:/Users/Sherry Wong/Desktop/he/OO2/lab/Jars-20170926/slf4j-api-1.7.23.jar"/>
+	<classpathentry kind="lib" path="C:/Program Files/Java/jdk1.8.0_101/jre/lib/jfxswt.jar"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
