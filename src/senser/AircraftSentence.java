@@ -18,6 +18,6 @@ public class AircraftSentence
 	//TODO: Overwrite toString() method to print sentence
 	@Override
 	public String toString() {
-		return aircraft;
+		return "{" + aircraft + "}";
 	}
 }
