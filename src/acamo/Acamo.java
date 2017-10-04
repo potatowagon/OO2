@@ -60,7 +60,8 @@ public class Acamo extends Application implements Observer
 		activeAircrafts = new ActiveAircrafts();
 		
 		// TODO: activeAircrafts and Acamo needs to observe messer  
-		
+		messer.addObserver(this);
+		messer.addObserver(activeAircrafts);
         fields = BasicAircraft.getAttributesNames();
 
         // TODO: Fill column header using the attribute names from BasicAircraft
