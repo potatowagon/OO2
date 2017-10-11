@@ -44,7 +44,7 @@ public class BasicAircraft {
 		return attributeNames;
 	}
 
-	public static ArrayList<Object> getAttributesValues(BasicAircraft ac)
+	public static ArrayList<String> getAttributesValues(BasicAircraft ac)
 	{
 		ArrayList<String> attributeValues = new ArrayList<String>();
 		attributeValues.add(ac.icao);
@@ -55,8 +55,7 @@ public class BasicAircraft {
 		attributeValues.add(Double.toString(ac.speed));
 		attributeValues.add(Double.toString(ac.trak));
 		attributeValues.add(Double.toString(ac.altitude));
-		
-		return null;
+		return attributeValues;
 	}
 
 	//TODO: Overwrite toString() method to print fields
