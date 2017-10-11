@@ -32,11 +32,30 @@ public class BasicAircraft {
 	//TODO: Lab 4-6 return attribute names and values for table
 	public static ArrayList<String> getAttributesNames()
 	{
-		return null;
+		ArrayList<String> attributeNames = new ArrayList<String>();
+		attributeNames.add("Icao");
+		attributeNames.add("Operator");
+		attributeNames.add("Species");
+		attributeNames.add("PosTime");
+		attributeNames.add("Coordinate");
+		attributeNames.add("Speed");
+		attributeNames.add("Trak");
+		attributeNames.add("Altitude");
+		return attributeNames;
 	}
 
 	public static ArrayList<Object> getAttributesValues(BasicAircraft ac)
 	{
+		ArrayList<String> attributeValues = new ArrayList<String>();
+		attributeValues.add(ac.icao);
+		attributeValues.add(ac.operator);
+		attributeValues.add(Integer.toString(ac.species));
+		attributeValues.add(ac.posTime.toString());
+		attributeValues.add(ac.coordinate.toString());
+		attributeValues.add(Double.toString(ac.speed));
+		attributeValues.add(Double.toString(ac.trak));
+		attributeValues.add(Double.toString(ac.altitude));
+		
 		return null;
 	}
 
