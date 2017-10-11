@@ -73,11 +73,14 @@ public class Acamo extends Application implements Observer
         table.autosize();
  
         // TODO: Create layout of table and pane for selected aircraft
+        Pane rightPane = new Pane();
+        TableView<BasicAircraft> table = new TableView<BasicAircraft>(aircraftList);
+        VBox main = new VBox();
         
         // TODO: Add event handler for selected aircraft
  
         
-		Scene scene = new Scene(...);
+		Scene scene = new Scene(main);
         stage.setScene(scene);
         stage.setTitle("Acamo");
         stage.sizeToScene();
