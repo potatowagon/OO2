@@ -79,7 +79,8 @@ public class Acamo extends Application implements Observer
  
         // TODO: Create layout of table and pane for selected aircraft
         Pane rightPane = new Pane();
-        VBox main = new VBox(table, rightPane);
+        VBox left = new VBox(new Label("Active Aircrafts"), table);
+        HBox main = new HBox(left, rightPane);
         
         // TODO: Add event handler for selected aircraft
  
