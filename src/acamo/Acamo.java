@@ -33,6 +33,7 @@ public class Acamo extends Application implements Observer
     private TableView<BasicAircraft> table = new TableView<BasicAircraft>();
     private ObservableList<BasicAircraft> aircraftList = FXCollections.observableArrayList();
     private ArrayList<String> fields;
+    private ArrayList<String> cellValueName;
  
     private double latitude = 48.7433425;
     private double longitude = 9.3201122;
@@ -63,9 +64,13 @@ public class Acamo extends Application implements Observer
 		messer.addObserver(this);
 		messer.addObserver(activeAircrafts);
         fields = BasicAircraft.getAttributesNames();
+        cellValueName = BasicAircraft.getAttributesValues();
 
         // TODO: Fill column header using the attribute names from BasicAircraft
 		for(int i = 0;i < fields.size();i++) {
+			TableColumn<BasicAircraft, String> col = new TableColumn<BasicAircraft, String>(fields.get(i));
+			col.setCellValueFactory(new PropertyValueFactory(cellValueName.get(i)));
+			table.getColumns().add(col);
 		}
 		table.setItems(aircraftList);
 
@@ -91,6 +96,7 @@ public class Acamo extends Application implements Observer
     // TODO: When messer updates Acamo (and activeAircrafts) the aircraftList must be updated as well
     @Override
     public void update(Observable o, Object arg) {
-
+    	aircraftList.clear();
+    	aircraftList.addAll(activeAircrafts.values());
     }
 }

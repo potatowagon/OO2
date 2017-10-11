@@ -30,7 +30,7 @@ public class ActiveAircrafts implements Observer
 	}
 
 	public synchronized ArrayList<BasicAircraft> values() {
-		return (ArrayList<BasicAircraft>) this.activeAircrafts.values();
+		return new ArrayList<BasicAircraft>(this.activeAircrafts.values());
 	}
 
 	public String toString () {

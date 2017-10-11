@@ -32,6 +32,34 @@ public class BasicAircraft {
 		return this.icao;
 	}
 	
+	public String getOperator() {
+		return this.operator;
+	}
+	
+	public int getSpecies() {
+		return this.species;
+	}
+	
+	public String getPosTime() {
+		return posTime.toString();
+	}
+
+	public String getCoordinate() {
+		return coordinate.toString();
+	}
+
+	public Double getSpeed() {
+		return speed;
+	}
+
+	public Double getTrak() {
+		return trak;
+	}
+
+	public Integer getAltitude() {
+		return altitude;
+	}
+
 	//TODO: Lab 4-6 return attribute names and values for table
 	public static ArrayList<String> getAttributesNames()
 	{
@@ -47,17 +75,26 @@ public class BasicAircraft {
 		return attributeNames;
 	}
 
-	public static ArrayList<String> getAttributesValues(BasicAircraft ac)
+	public static ArrayList<String> getAttributesValues()
 	{
 		ArrayList<String> attributeValues = new ArrayList<String>();
-		attributeValues.add(ac.icao);
+		/*attributeValues.add(ac.icao);
 		attributeValues.add(ac.operator);
 		attributeValues.add(Integer.toString(ac.species));
 		attributeValues.add(ac.posTime.toString());
 		attributeValues.add(ac.coordinate.toString());
 		attributeValues.add(Double.toString(ac.speed));
 		attributeValues.add(Double.toString(ac.trak));
-		attributeValues.add(Double.toString(ac.altitude));
+		attributeValues.add(Double.toString(ac.altitude));*/
+		
+		attributeValues.add("icao");
+		attributeValues.add("operator");
+		attributeValues.add("species");
+		attributeValues.add("posTime");
+		attributeValues.add("coordinate");
+		attributeValues.add("speed");
+		attributeValues.add("trak");
+		attributeValues.add("altitude");
 		return attributeValues;
 	}
 
