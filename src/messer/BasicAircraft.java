@@ -78,14 +78,6 @@ public class BasicAircraft {
 	public static ArrayList<String> getAttributesValues()
 	{
 		ArrayList<String> attributeValues = new ArrayList<String>();
-		/*attributeValues.add(ac.icao);
-		attributeValues.add(ac.operator);
-		attributeValues.add(Integer.toString(ac.species));
-		attributeValues.add(ac.posTime.toString());
-		attributeValues.add(ac.coordinate.toString());
-		attributeValues.add(Double.toString(ac.speed));
-		attributeValues.add(Double.toString(ac.trak));
-		attributeValues.add(Double.toString(ac.altitude));*/
 		
 		attributeValues.add("icao");
 		attributeValues.add("operator");
