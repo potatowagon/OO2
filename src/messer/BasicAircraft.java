@@ -28,6 +28,9 @@ public class BasicAircraft {
 	}
 
 	//TODO: Create relevant getter methods
+	public String getIcao(){
+		return this.icao;
+	}
 	
 	//TODO: Lab 4-6 return attribute names and values for table
 	public static ArrayList<String> getAttributesNames()

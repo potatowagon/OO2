@@ -74,8 +74,7 @@ public class Acamo extends Application implements Observer
  
         // TODO: Create layout of table and pane for selected aircraft
         Pane rightPane = new Pane();
-        TableView<BasicAircraft> table = new TableView<BasicAircraft>(aircraftList);
-        VBox main = new VBox();
+        VBox main = new VBox(table, rightPane);
         
         // TODO: Add event handler for selected aircraft
  
