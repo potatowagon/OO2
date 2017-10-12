@@ -83,7 +83,7 @@ public class Acamo extends Application implements Observer {
 
 		// fill selected aircraft header with labels
 		for (int i = 0; i < fields.size(); i++) {
-			selectedAircraftHeader.getChildren().add(new Label(fields.get(i)));
+			selectedAircraftHeader.getChildren().add(new Label(" " + fields.get(i) + "   "));
 		}
 
 		Label label2 = new Label("Selected Aircraft");
