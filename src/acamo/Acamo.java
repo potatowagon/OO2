@@ -109,11 +109,10 @@ public class Acamo extends Application implements Observer {
 					for (int c = 0; c < fields.size(); c++) {
 						String methodName = "get" + fields.get(c);
 						try {
-							Method method = selectedAircraft.getClass().getDeclaredMethod(methodName);
+							Method method = BasicAircraft.class.getDeclaredMethod(methodName);
 							String value = null;
 
 							try {
-
 								value = method.invoke(selectedAircraft).toString();
 							} catch (IllegalAccessException e) {
 								// TODO Auto-generated catch block
