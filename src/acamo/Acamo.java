@@ -1,5 +1,7 @@
 package acamo;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Observable;
@@ -76,16 +78,67 @@ public class Acamo extends Application implements Observer {
 		table.autosize();
 
 		// TODO: Create layout of table and pane for selected aircraft
-		Pane rightPane = new Pane();
-		VBox left = new VBox(new Label("Active Aircrafts"), table);
-		HBox main = new HBox(left, rightPane);
+		VBox selectedAircraftHeader = new VBox();
+		VBox selectedAircraftValues = new VBox();
+
+		// fill selected aircraft header with labels
+		for (int i = 0; i < fields.size(); i++) {
+			selectedAircraftHeader.getChildren().add(new Label(fields.get(i)));
+		}
+
+		Label label2 = new Label("Selected Aircraft");
+		label2.setFont(new Font("Arial", 32));
+		HBox selectedAircraftBox = new HBox(selectedAircraftHeader, selectedAircraftValues);
+		VBox mainRightBox = new VBox(label2, selectedAircraftBox);
+
+		Label label1 = new Label("Active Aircrafts");
+		label1.setFont(new Font("Arial", 30));
+		VBox mainLeftBox = new VBox(label1, table);
+
+		HBox main = new HBox(mainLeftBox, mainRightBox);
 
 		// TODO: Add event handler for selected aircraft
 		table.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-				if (event.isPrimaryButtonDown() && event.getClickCount() == 2){
-					System.out.println(table.getSelectionModel().getSelectedItem());
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+					
+                    BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
+                    selectedAircraftValues.getChildren().clear();
+
+					for (int c = 0; c < fields.size(); c++) {
+						String methodName = "get" + fields.get(c);
+						try {
+							Method method = selectedAircraft.getClass().getDeclaredMethod(methodName);
+							String value = null;
+							
+							try { 
+								if(!(method.invoke(selectedAircraft) instanceof String)){
+									value = method.invoke(selectedAircraft).toString();
+								}
+								else {
+									value = (String)method.invoke(selectedAircraft);
+								}
+							} catch (IllegalAccessException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (IllegalArgumentException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							} catch (InvocationTargetException e) {
+								// TODO Auto-generated catch block
+								e.printStackTrace();
+							}
+							
+							selectedAircraftValues.getChildren().add(new Label(value));
+						} catch (NoSuchMethodException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						} catch (SecurityException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
+					}
 				}
 			}
 		});
