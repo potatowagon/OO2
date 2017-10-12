@@ -102,23 +102,19 @@ public class Acamo extends Application implements Observer {
 			@Override
 			public void handle(MouseEvent event) {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-					
-                    BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
-                    selectedAircraftValues.getChildren().clear();
+
+					BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
+					selectedAircraftValues.getChildren().clear();
 
 					for (int c = 0; c < fields.size(); c++) {
 						String methodName = "get" + fields.get(c);
 						try {
 							Method method = selectedAircraft.getClass().getDeclaredMethod(methodName);
 							String value = null;
-							
-							try { 
-								if(!(method.invoke(selectedAircraft) instanceof String)){
-									value = method.invoke(selectedAircraft).toString();
-								}
-								else {
-									value = (String)method.invoke(selectedAircraft);
-								}
+
+							try {
+
+								value = method.invoke(selectedAircraft).toString();
 							} catch (IllegalAccessException e) {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
@@ -129,7 +125,7 @@ public class Acamo extends Application implements Observer {
 								// TODO Auto-generated catch block
 								e.printStackTrace();
 							}
-							
+
 							selectedAircraftValues.getChildren().add(new Label(value));
 						} catch (NoSuchMethodException e) {
 							// TODO Auto-generated catch block

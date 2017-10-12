@@ -40,12 +40,12 @@ public class BasicAircraft {
 		return this.species;
 	}
 	
-	public String getPosTime() {
-		return posTime.toString();
+	public Date getPosTime() {
+		return posTime;
 	}
 
-	public String getCoordinate() {
-		return coordinate.toString();
+	public Coordinate getCoordinate() {
+		return coordinate;
 	}
 
 	public Double getSpeed() {
