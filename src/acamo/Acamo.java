@@ -34,6 +34,7 @@ public class Acamo extends Application implements Observer {
 	private ObservableList<BasicAircraft> aircraftList = FXCollections.observableArrayList();
 	private ArrayList<String> fields;
 	private ArrayList<String> cellValueName;
+	private VBox selectedAircraftValues;
 
 	private double latitude = 48.7433425;
 	private double longitude = 9.3201122;
@@ -67,35 +68,7 @@ public class Acamo extends Application implements Observer {
 		cellValueName = BasicAircraft.getAttributesValues();
 
 		// TODO: Fill column header using the attribute names from BasicAircraft
-		for (int i = 0; i < fields.size(); i++) {
-			TableColumn<BasicAircraft, String> col = new TableColumn<BasicAircraft, String>(fields.get(i));
-			col.setCellValueFactory(new PropertyValueFactory(cellValueName.get(i)));
-			table.getColumns().add(col);
-		}
-		table.setItems(aircraftList);
-
-		table.setEditable(false);
-		table.autosize();
-
-		// TODO: Create layout of table and pane for selected aircraft
-		VBox selectedAircraftHeader = new VBox();
-		VBox selectedAircraftValues = new VBox();
-
-		// fill selected aircraft header with labels
-		for (int i = 0; i < fields.size(); i++) {
-			selectedAircraftHeader.getChildren().add(new Label(" " + fields.get(i) + "   "));
-		}
-
-		Label label2 = new Label("Selected Aircraft");
-		label2.setFont(new Font("Arial", 32));
-		HBox selectedAircraftBox = new HBox(selectedAircraftHeader, selectedAircraftValues);
-		VBox mainRightBox = new VBox(label2, selectedAircraftBox);
-
-		Label label1 = new Label("Active Aircrafts");
-		label1.setFont(new Font("Arial", 30));
-		VBox mainLeftBox = new VBox(label1, table);
-
-		HBox main = new HBox(mainLeftBox, mainRightBox);
+		setupTable();
 
 		// TODO: Add event handler for selected aircraft
 		table.setOnMousePressed(new EventHandler<MouseEvent>() {
@@ -138,7 +111,7 @@ public class Acamo extends Application implements Observer {
 			}
 		});
 
-		Scene scene = new Scene(main);
+		Scene scene = setupScene();
 		stage.setScene(scene);
 		stage.setTitle("Acamo");
 		stage.sizeToScene();
@@ -152,5 +125,51 @@ public class Acamo extends Application implements Observer {
 	public void update(Observable o, Object arg) {
 		aircraftList.clear();
 		aircraftList.addAll(activeAircrafts.values());
+	}
+
+	private Scene setupScene() {
+		Pane mainRightBox = setupSelectedAircraftPane();
+		Pane mainLeftBox = setupTablePane();
+		Pane main = new HBox(mainLeftBox, mainRightBox);
+		Scene scene = new Scene(main);
+		return scene;
+	}
+
+	private Pane setupTablePane() {
+		Label label1 = new Label("Active Aircrafts");
+		label1.setFont(new Font("Arial", 30));
+		VBox tablePane = new VBox(label1, table);
+		return tablePane;
+	}
+
+	private Pane setupSelectedAircraftPane() {
+		VBox selectedAircraftHeader = new VBox();
+		this.selectedAircraftValues = new VBox();
+
+		fillSelectedAircraftPaneHeader(selectedAircraftHeader);
+		Label label2 = new Label("Selected Aircraft");
+		label2.setFont(new Font("Arial", 32));
+		HBox selectedAircraftBox = new HBox(selectedAircraftHeader, selectedAircraftValues);
+		VBox selectedAircraftPane = new VBox(label2, selectedAircraftBox);
+		return selectedAircraftPane;
+	}
+
+	private void setupTable() {
+		for (int i = 0; i < fields.size(); i++) {
+			TableColumn<BasicAircraft, String> col = new TableColumn<BasicAircraft, String>(fields.get(i));
+			col.setCellValueFactory(new PropertyValueFactory(cellValueName.get(i)));
+			table.getColumns().add(col);
+		}
+		table.setItems(aircraftList);
+
+		table.setEditable(false);
+		table.autosize();
+	}
+
+	private void fillSelectedAircraftPaneHeader(Pane selectedAircraftHeader) {
+		// fill selected aircraft header with labels
+		for (int i = 0; i < fields.size(); i++) {
+			selectedAircraftHeader.getChildren().add(new Label(" " + fields.get(i) + "   "));
+		}
 	}
 }
