@@ -35,7 +35,7 @@ public class Acamo extends Application implements Observer {
 	private ArrayList<String> fields;
 	private ArrayList<String> cellValueName;
 	private VBox selectedAircraftValues;
-	private AircraftCursor selectedAircraftCursor;
+	private AircraftCursor selectedAircraftCursor = null;
 
 	private double latitude = 48.7433425;
 	private double longitude = 9.3201122;
@@ -78,9 +78,10 @@ public class Acamo extends Application implements Observer {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 					BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
-					selectedAircraftCursor = new AircraftCursor(selectedAircraft.getIcao(), table.getSelectionModel().getFocusedIndex());
+					selectedAircraftCursor = new AircraftCursor(selectedAircraft.getIcao(),
+							table.getSelectionModel().getFocusedIndex());
 					displaySelectedAircraftValues(selectedAircraft);
-					
+					System.out.println(selectedAircraftCursor.getRow());
 				}
 			}
 		});
@@ -99,6 +100,16 @@ public class Acamo extends Application implements Observer {
 	public void update(Observable o, Object arg) {
 		aircraftList.clear();
 		aircraftList.addAll(activeAircrafts.values());
+		if (selectedAircraftCursor != null) {
+			Platform.runLater(new Runnable() {
+				@Override
+				public void run() {
+					updateSelectedAircraftPane();
+					table.requestFocus();
+					table.getFocusModel().focus(selectedAircraftCursor.getRow());
+				}
+			});
+		}
 	}
 
 	private Scene setupScene() {
@@ -146,10 +157,10 @@ public class Acamo extends Application implements Observer {
 			selectedAircraftHeader.getChildren().add(new Label(" " + fields.get(i) + "   "));
 		}
 	}
-	
-	private void displaySelectedAircraftValues(BasicAircraft selectedAircraft){
+
+	private void displaySelectedAircraftValues(BasicAircraft selectedAircraft) {
 		selectedAircraftValues.getChildren().clear();
-		
+
 		for (int c = 0; c < fields.size(); c++) {
 			String methodName = "get" + fields.get(c);
 			try {
@@ -176,6 +187,39 @@ public class Acamo extends Application implements Observer {
 			} catch (SecurityException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+			}
+		}
+	}
+
+	private void updateSelectedAircraftPane() {
+		boolean found = false;
+		BasicAircraft newAircraft = null;
+		// check if row still has same icao
+		try {
+			newAircraft = aircraftList.get(selectedAircraftCursor.getRow());
+		} catch (IndexOutOfBoundsException e) {
+			System.out.println("Server is slow");
+		} finally {
+			if (newAircraft != null) {
+				if (newAircraft.getIcao().equals(selectedAircraftCursor.getIcao())) {
+					displaySelectedAircraftValues(newAircraft);
+				} else {
+					// search for the aircraft that match the cursor's icao
+					for (int i = 0; i < aircraftList.size(); i++) {
+						newAircraft = aircraftList.get(i);
+						if (newAircraft.getIcao().equals(selectedAircraftCursor.getIcao())) {
+							displaySelectedAircraftValues(newAircraft);
+							selectedAircraftCursor.setRow(i);
+							found = true;
+							break;
+						}
+					}
+
+					if (!found) {
+						selectedAircraftCursor = null;
+						selectedAircraftValues.getChildren().clear();
+					}
+				}
 			}
 		}
 	}
