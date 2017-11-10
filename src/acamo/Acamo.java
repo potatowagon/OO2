@@ -35,6 +35,7 @@ public class Acamo extends Application implements Observer {
 	private ArrayList<String> fields;
 	private ArrayList<String> cellValueName;
 	private VBox selectedAircraftValues;
+	private AircraftCursor selectedAircraftCursor;
 
 	private double latitude = 48.7433425;
 	private double longitude = 9.3201122;
@@ -77,36 +78,9 @@ public class Acamo extends Application implements Observer {
 				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
 
 					BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
-					selectedAircraftValues.getChildren().clear();
-
-					for (int c = 0; c < fields.size(); c++) {
-						String methodName = "get" + fields.get(c);
-						try {
-							Method method = BasicAircraft.class.getDeclaredMethod(methodName);
-							String value = null;
-
-							try {
-								value = method.invoke(selectedAircraft).toString();
-							} catch (IllegalAccessException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (IllegalArgumentException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							} catch (InvocationTargetException e) {
-								// TODO Auto-generated catch block
-								e.printStackTrace();
-							}
-
-							selectedAircraftValues.getChildren().add(new Label(value));
-						} catch (NoSuchMethodException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						} catch (SecurityException e) {
-							// TODO Auto-generated catch block
-							e.printStackTrace();
-						}
-					}
+					selectedAircraftCursor = new AircraftCursor(selectedAircraft.getIcao(), table.getSelectionModel().getFocusedIndex());
+					displaySelectedAircraftValues(selectedAircraft);
+					
 				}
 			}
 		});
@@ -170,6 +144,39 @@ public class Acamo extends Application implements Observer {
 		// fill selected aircraft header with labels
 		for (int i = 0; i < fields.size(); i++) {
 			selectedAircraftHeader.getChildren().add(new Label(" " + fields.get(i) + "   "));
+		}
+	}
+	
+	private void displaySelectedAircraftValues(BasicAircraft selectedAircraft){
+		selectedAircraftValues.getChildren().clear();
+		
+		for (int c = 0; c < fields.size(); c++) {
+			String methodName = "get" + fields.get(c);
+			try {
+				Method method = BasicAircraft.class.getDeclaredMethod(methodName);
+				String value = null;
+
+				try {
+					value = method.invoke(selectedAircraft).toString();
+				} catch (IllegalAccessException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (IllegalArgumentException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				} catch (InvocationTargetException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+
+				selectedAircraftValues.getChildren().add(new Label(value));
+			} catch (NoSuchMethodException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (SecurityException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 		}
 	}
 }
