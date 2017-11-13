@@ -48,44 +48,27 @@ public class Acamo extends Application implements Observer {
 	public void start(Stage stage) {
 		String urlString;
 		urlString = "https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json";
-
+		
 		PlaneDataServer server = new PlaneDataServer(urlString, latitude, longitude, 50);
 		new Thread(server).start();
-
+		
 		Senser senser = new Senser(server);
 		new Thread(senser).start();
-
+		
 		Messer messer = new Messer();
 		senser.addObserver(messer);
 		new Thread(messer).start();
-
-		// TODO: create activeAircrafts
+		
 		activeAircrafts = new ActiveAircrafts();
-
-		// TODO: activeAircrafts and Acamo needs to observe messer
 		messer.addObserver(this);
 		messer.addObserver(activeAircrafts);
 		fields = BasicAircraft.getAttributesNames();
 		cellValueName = BasicAircraft.getAttributesValues();
-
-		// TODO: Fill column header using the attribute names from BasicAircraft
+		
 		setupTable();
-
-		// TODO: Add event handler for selected aircraft
-		table.setOnMousePressed(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
-
-					BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
-					selectedAircraftCursor = new AircraftCursor(selectedAircraft.getIcao(),
-							table.getSelectionModel().getFocusedIndex());
-					displaySelectedAircraftValues(selectedAircraft);
-					System.out.println(selectedAircraftCursor.getRow());
-				}
-			}
-		});
-
+		
+		AddDoubleClickHandlerForSelectedAircraft();
+		
 		Scene scene = setupScene();
 		stage.setScene(scene);
 		stage.setTitle("Acamo");
@@ -118,6 +101,22 @@ public class Acamo extends Application implements Observer {
 		Pane main = new HBox(mainLeftBox, mainRightBox);
 		Scene scene = new Scene(main);
 		return scene;
+	}
+	
+	private void AddDoubleClickHandlerForSelectedAircraft(){
+		table.setOnMousePressed(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+				if (event.isPrimaryButtonDown() && event.getClickCount() == 2) {
+
+					BasicAircraft selectedAircraft = table.getSelectionModel().getSelectedItem();
+					selectedAircraftCursor = new AircraftCursor(selectedAircraft.getIcao(),
+							table.getSelectionModel().getFocusedIndex());
+					displaySelectedAircraftValues(selectedAircraft);
+					System.out.println(selectedAircraftCursor.getRow());
+				}
+			}
+		});
 	}
 
 	private Pane setupTablePane() {
