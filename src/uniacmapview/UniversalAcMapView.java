@@ -43,5 +43,23 @@ import com.lynden.gmapsfx.util.MarkerImageFactory;
 
 public class UniversalAcMapView extends Application implements Observer, MapComponentInitializedListener
 {
+
+	@Override
+	public void mapInitialized() {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void update(Observable arg0, Object arg1) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void start(Stage primaryStage) throws Exception {
+		// TODO Auto-generated method stub
+		
+	}
 	// TODO: For Lab 6 copy your AcMapView code here 
 }
