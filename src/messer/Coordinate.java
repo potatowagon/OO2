@@ -13,6 +13,14 @@ public class Coordinate {
 		this.longitude = lon;
 	}
 	
+	public double getLatitude() {
+		return latitude;
+	}
+
+	public double getLongitude() {
+		return longitude;
+	}
+
 	public String toString() {
 		DecimalFormat df = new DecimalFormat("#.00");
 		String out = df.format(latitude) + "/" + df.format(longitude);
