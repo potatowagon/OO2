@@ -45,12 +45,12 @@ import com.lynden.gmapsfx.javascript.object.Marker;
 import com.lynden.gmapsfx.javascript.object.MarkerOptions;
 import com.lynden.gmapsfx.util.MarkerImageFactory;
 
-public class AcMapView extends Application implements Observer, MapComponentInitializedListener
-{
+public class AcMapView extends Application implements Observer, MapComponentInitializedListener {
 	private GoogleMapView mapComponent;
-    private GoogleMap map;
-    private Pane mapPane;
-  
+	private GoogleMap map;
+	private Pane mapPane;
+	private ArrayList<AirplaneMarker> aircraftMarkerGroup;
+
 	// TODO: For Lab 5 copy your Acamo code here
 	private ActiveAircrafts activeAircrafts;
 	private TableView<BasicAircraft> table = new TableView<BasicAircraft>();
@@ -71,40 +71,40 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 	public void start(Stage stage) {
 		String urlString;
 		urlString = "https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json";
-		
+
 		PlaneDataServer server = new PlaneDataServer(urlString, latitude, longitude, 50);
 		new Thread(server).start();
-		
+
 		Senser senser = new Senser(server);
 		new Thread(senser).start();
-		
+
 		Messer messer = new Messer();
 		senser.addObserver(messer);
 		new Thread(messer).start();
-		
+
 		activeAircrafts = new ActiveAircrafts();
 		messer.addObserver(this);
 		messer.addObserver(activeAircrafts);
 		fields = BasicAircraft.getAttributesNames();
 		cellValueName = BasicAircraft.getAttributesValues();
-		
+
 		setupTable();
-		
+
 		AddDoubleClickHandlerForSelectedAircraft();
-		
+
 		Scene scene = setupScene();
 		stage.setScene(scene);
 		stage.setTitle("Acamo");
 		stage.sizeToScene();
 		stage.setOnCloseRequest(e -> Platform.exit());
 		stage.show();
-		
-		 Platform.runLater(() -> {
-	            mapComponent = new GoogleMapView();
-	            mapComponent.addMapInializedListener(this);
-	            mapComponent.setPrefSize(400,500);
-	            mapPane.getChildren().add(mapComponent);
-	        });
+
+		Platform.runLater(() -> {
+			mapComponent = new GoogleMapView();
+			mapComponent.addMapInializedListener(this);
+			mapComponent.setPrefSize(400, 500);
+			mapPane.getChildren().add(mapComponent);
+		});
 	}
 
 	// TODO: When messer updates Acamo (and activeAircrafts) the aircraftList
@@ -113,6 +113,10 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 	public void update(Observable o, Object arg) {
 		aircraftList.clear();
 		aircraftList.addAll(activeAircrafts.values());
+		updateGUI();
+	}
+
+	private void updateGUI() {
 		if (selectedAircraftCursor != null) {
 			Platform.runLater(new Runnable() {
 				@Override
@@ -120,8 +124,27 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 					updateSelectedAircraftPane();
 					table.requestFocus();
 					table.getFocusModel().focus(selectedAircraftCursor.getRow());
+					updateMap();
 				}
 			});
+		}
+	}
+
+	private void removeAllAircraftMarkers() {
+		if (aircraftMarkerGroup != null) {
+			for (int i = 0; i < aircraftMarkerGroup.size(); i++) {
+				map.removeMarker(aircraftMarkerGroup.get(i));
+			}
+		}
+	}
+
+	private void updateMap() {
+		removeAllAircraftMarkers();
+		aircraftMarkerGroup = new ArrayList<AirplaneMarker>();
+		for (int i = 0; i < aircraftList.size(); i++) {
+			AirplaneMarker marker = new AirplaneMarker(aircraftList.get(i));
+			aircraftMarkerGroup.add(marker);
+			map.addMarker(marker);
 		}
 	}
 
@@ -134,8 +157,8 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 		Scene scene = new Scene(main);
 		return scene;
 	}
-	
-	private void AddDoubleClickHandlerForSelectedAircraft(){
+
+	private void AddDoubleClickHandlerForSelectedAircraft() {
 		table.setOnMousePressed(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -254,41 +277,28 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 			}
 		}
 	}
-	
 
 	@Override
 	public void mapInitialized() {
 		// TODO Auto-generated method stub
-		//Once the map has been loaded by the Webview, initialize the map details.
-        LatLong center = new LatLong(latitude, longitude);
-        MapOptions options = new MapOptions();
-        options.center(center)
-                .mapMarker(true)
-                .zoom(9)
-                .overviewMapControl(false)
-                .panControl(false)
-                .rotateControl(false)
-                .scaleControl(false)
-                .streetViewControl(false)
-                .zoomControl(false)
-                .mapType(MapTypeIdEnum.ROADMAP);
-        map = mapComponent.createMap(options);
-        //Add a couple of markers to the map.
-        MarkerOptions markerOptions = new MarkerOptions();
-        LatLong markerLatLong = new LatLong(latitude, longitude);
-        markerOptions.position(markerLatLong)
-                .title("My new Marker")
-                .animation(Animation.DROP)
-                .visible(true);
-        Marker myMarker = new Marker(markerOptions);
-        MarkerOptions markerOptions2 = new MarkerOptions();
-        LatLong markerLatLong2 = new LatLong(latitude, longitude);
-        markerOptions2.position(markerLatLong2)
-                .title("Red location Marker")
-                .visible(true);
-        Marker myMarker2 = new Marker(markerOptions2);
-        map.addMarker(myMarker);
-        map.addMarker(myMarker2);
-    
+		// Once the map has been loaded by the Webview, initialize the map
+		// details.
+		LatLong center = new LatLong(latitude, longitude);
+		MapOptions options = new MapOptions();
+		options.center(center).mapMarker(true).zoom(9).overviewMapControl(false).panControl(false).rotateControl(false)
+				.scaleControl(false).streetViewControl(false).zoomControl(false).mapType(MapTypeIdEnum.ROADMAP);
+		map = mapComponent.createMap(options);
+		// Add a couple of markers to the map.
+		MarkerOptions markerOptions = new MarkerOptions();
+		LatLong markerLatLong = new LatLong(latitude, longitude);
+		markerOptions.position(markerLatLong).title("My new Marker").animation(Animation.DROP).visible(true);
+		Marker myMarker = new Marker(markerOptions);
+		MarkerOptions markerOptions2 = new MarkerOptions();
+		LatLong markerLatLong2 = new LatLong(latitude+10, longitude+10);
+		markerOptions2.position(markerLatLong2).title("").visible(true).animation(Animation.DROP).icon("https://raw.githubusercontent.com/potatowagon/OO2/master/icons/plane05.png");
+		Marker myMarker2 = new Marker(markerOptions2);
+		map.addMarker(myMarker);
+		map.addMarker(myMarker2);
 	}
+
 }
