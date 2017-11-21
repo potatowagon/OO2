@@ -117,17 +117,18 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 	}
 
 	private void updateGUI() {
-		if (selectedAircraftCursor != null) {
-			Platform.runLater(new Runnable() {
-				@Override
-				public void run() {
+
+		Platform.runLater(new Runnable() {
+			@Override
+			public void run() {
+				if (selectedAircraftCursor != null) {
 					updateSelectedAircraftPane();
 					table.requestFocus();
 					table.getFocusModel().focus(selectedAircraftCursor.getRow());
-					updateMap();
 				}
-			});
-		}
+				updateMap();
+			}
+		});
 	}
 
 	private void removeAllAircraftMarkers() {
@@ -294,11 +295,12 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 		markerOptions.position(markerLatLong).title("My new Marker").animation(Animation.DROP).visible(true);
 		Marker myMarker = new Marker(markerOptions);
 		MarkerOptions markerOptions2 = new MarkerOptions();
-		LatLong markerLatLong2 = new LatLong(latitude+10, longitude+10);
-		markerOptions2.position(markerLatLong2).title("").visible(true).animation(Animation.DROP).icon("https://raw.githubusercontent.com/potatowagon/OO2/master/icons/plane05.png");
+		LatLong markerLatLong2 = new LatLong(latitude + 10, longitude + 10);
+		markerOptions2.position(markerLatLong2).title("").visible(true).animation(Animation.DROP)
+				.icon("https://raw.githubusercontent.com/potatowagon/OO2/master/icons/plane05.png");
 		Marker myMarker2 = new Marker(markerOptions2);
 		map.addMarker(myMarker);
-		map.addMarker(myMarker2);
+		// map.addMarker(myMarker2);
 	}
 
 }
