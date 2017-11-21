@@ -50,6 +50,8 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 	private GoogleMap map;
 	private Pane mapPane;
 	private ArrayList<AirplaneMarker> aircraftMarkerGroup;
+	private Marker mapCenter;
+	private InfoWindow selectedAirplaneMarker;
 
 	// TODO: For Lab 5 copy your Acamo code here
 	private ActiveAircrafts activeAircrafts;
@@ -125,10 +127,25 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 					updateSelectedAircraftPane();
 					table.requestFocus();
 					table.getFocusModel().focus(selectedAircraftCursor.getRow());
+					markSelectedAircraftOnMap();
 				}
 				updateMap();
 			}
 		});
+	}
+
+	private void markSelectedAircraftOnMap() {
+		if(selectedAirplaneMarker != null) {
+			selectedAirplaneMarker.close();
+		}
+		String icao = selectedAircraftCursor.getIcao();
+		Coordinate coordinate = getBasicAircraftFromAircraftList(icao).getCoordinate();
+		LatLong latLong = new LatLong(coordinate.getLatitude(), coordinate.getLongitude());
+		InfoWindowOptions infoOptions = new InfoWindowOptions();
+		infoOptions.content(icao).position(latLong);
+		selectedAirplaneMarker = new InfoWindow(infoOptions);
+		selectedAirplaneMarker.setPosition(latLong);
+		selectedAirplaneMarker.open(map, null);
 	}
 
 	private void removeAllAircraftMarkers() {
@@ -170,6 +187,7 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 							table.getSelectionModel().getFocusedIndex());
 					displaySelectedAircraftValues(selectedAircraft);
 					System.out.println(selectedAircraftCursor.getRow());
+					markSelectedAircraftOnMap();
 				}
 			}
 		});
@@ -279,6 +297,15 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 		}
 	}
 
+	private BasicAircraft getBasicAircraftFromAircraftList(String icao) {
+		for (int i = 0; i < aircraftList.size(); i++) {
+			if (aircraftList.get(i).getIcao().equals(icao)) {
+				return aircraftList.get(i);
+			}
+		}
+		return null;
+	}
+
 	@Override
 	public void mapInitialized() {
 		// TODO Auto-generated method stub
@@ -293,13 +320,13 @@ public class AcMapView extends Application implements Observer, MapComponentInit
 		MarkerOptions markerOptions = new MarkerOptions();
 		LatLong markerLatLong = new LatLong(latitude, longitude);
 		markerOptions.position(markerLatLong).title("My new Marker").animation(Animation.DROP).visible(true);
-		Marker myMarker = new Marker(markerOptions);
+		mapCenter = new Marker(markerOptions);
 		MarkerOptions markerOptions2 = new MarkerOptions();
 		LatLong markerLatLong2 = new LatLong(latitude + 10, longitude + 10);
 		markerOptions2.position(markerLatLong2).title("").visible(true).animation(Animation.DROP)
 				.icon("https://raw.githubusercontent.com/potatowagon/OO2/master/icons/plane05.png");
 		Marker myMarker2 = new Marker(markerOptions2);
-		map.addMarker(myMarker);
+		map.addMarker(mapCenter);
 		// map.addMarker(myMarker2);
 	}
 
