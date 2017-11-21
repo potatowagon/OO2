@@ -53,7 +53,7 @@ import com.lynden.gmapsfx.util.MarkerImageFactory;
 public class UniversalAcMapView extends Application implements Observer, MapComponentInitializedListener {
 	private GoogleMapView mapComponent;
 	private GoogleMap map;
-	private Pane mapPane;
+	private VBox mapPane;
 	private ArrayList<AirplaneMarker> aircraftMarkerGroup;
 	private Marker mapCenter;
 	private InfoWindow selectedAirplaneMarker;
@@ -111,6 +111,8 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 			mapComponent.addMapInializedListener(this);
 			mapComponent.setPrefSize(400, 500);
 			mapPane.getChildren().add(mapComponent);
+			mapPane.getChildren().add(setUpUniversalInputBox());
+			mapPane.setSpacing(10);
 		});
 	}
 
@@ -227,6 +229,17 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 
 		table.setEditable(false);
 		table.autosize();
+	}
+	
+	private VBox setUpUniversalInputBox() {
+		Label latLabel = new Label("Latitude");
+		Label lonLabel = new Label("Longitude");
+		TextField latInput = new TextField("" + latitude);
+		TextField lonInput = new TextField("" + longitude);
+		Button submit = new Button("Submit");
+		VBox box = new VBox(latLabel, latInput, lonLabel, lonInput, submit);
+		box.setSpacing(5);
+		return box;
 	}
 
 	private void fillSelectedAircraftPaneHeader(Pane selectedAircraftHeader) {
