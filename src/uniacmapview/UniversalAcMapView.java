@@ -138,8 +138,9 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 			public void run() {
 				if (selectedAircraftCursor != null) {
 					updateSelectedAircraftPane();
-					table.requestFocus();
+					//table.requestFocus();
 					table.getFocusModel().focus(selectedAircraftCursor.getRow());
+					//table.getChildren().get(selectedAircraftCursor.getRow()).setStyle("-fx-background-color:lightcoral");
 					markSelectedAircraftOnMap();
 				}
 				updateMap();
