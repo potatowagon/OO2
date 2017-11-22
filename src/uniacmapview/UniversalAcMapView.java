@@ -17,6 +17,8 @@ import javafx.collections.ObservableList;
 import javafx.geometry.Insets;
 import javafx.geometry.Orientation;
 import javafx.scene.Scene;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.SplitPane;
@@ -57,6 +59,9 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 	private ArrayList<AirplaneMarker> aircraftMarkerGroup;
 	private Marker mapCenter;
 	private InfoWindow selectedAirplaneMarker;
+	private Button submit;
+	private TextField latInput;
+	private TextField lonInput;
 
 	// TODO: For Lab 5 copy your Acamo code here
 	private ActiveAircrafts activeAircrafts;
@@ -113,6 +118,7 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 			mapPane.getChildren().add(mapComponent);
 			mapPane.getChildren().add(setUpUniversalInputBox());
 			mapPane.setSpacing(10);
+			submitButtonActivate();
 		});
 	}
 
@@ -142,7 +148,7 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 	}
 
 	private void markSelectedAircraftOnMap() {
-		if(selectedAirplaneMarker != null) {
+		if (selectedAirplaneMarker != null) {
 			selectedAirplaneMarker.close();
 		}
 		String icao = selectedAircraftCursor.getIcao();
@@ -193,7 +199,6 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 					selectedAircraftCursor = new AircraftCursor(selectedAircraft.getIcao(),
 							table.getSelectionModel().getFocusedIndex());
 					displaySelectedAircraftValues(selectedAircraft);
-					System.out.println(selectedAircraftCursor.getRow());
 					markSelectedAircraftOnMap();
 				}
 			}
@@ -226,20 +231,47 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 			table.getColumns().add(col);
 		}
 		table.setItems(aircraftList);
-
 		table.setEditable(false);
 		table.autosize();
 	}
-	
+
 	private VBox setUpUniversalInputBox() {
 		Label latLabel = new Label("Latitude");
 		Label lonLabel = new Label("Longitude");
-		TextField latInput = new TextField("" + latitude);
-		TextField lonInput = new TextField("" + longitude);
-		Button submit = new Button("Submit");
+		latInput = new TextField("" + latitude);
+		lonInput = new TextField("" + longitude);
+		submit = new Button("Submit");
 		VBox box = new VBox(latLabel, latInput, lonLabel, lonInput, submit);
 		box.setSpacing(5);
 		return box;
+	}
+
+	private void submitButtonActivate() {
+		if (submit != null) {
+			submit.setOnAction(new EventHandler<ActionEvent>() {
+
+				@Override
+				public void handle(ActionEvent e) {
+					double newLat = Double.parseDouble(latInput.getText());
+					double newLon = Double.parseDouble(lonInput.getText());
+					if (newLat >= -90 && newLat <= 90 && newLon >= -180 && newLon <= 180) {
+
+					} else {
+						Alert alert = new Alert(AlertType.INFORMATION);
+						alert.setTitle("Dear Dumb User");
+						alert.setHeaderText(null);
+						alert.setContentText("Latitude is between -90 and 90 \nLongitude is between -180 and 180");
+						alert.showAndWait();
+						
+					}
+				}
+
+			});
+		}
+		else {
+			System.err.println("Submit Button not initialised, is null");
+		}
+
 	}
 
 	private void fillSelectedAircraftPaneHeader(Pane selectedAircraftHeader) {
