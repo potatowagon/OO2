@@ -255,6 +255,7 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 					double newLat = Double.parseDouble(latInput.getText());
 					double newLon = Double.parseDouble(lonInput.getText());
 					if (newLat >= -90 && newLat <= 90 && newLon >= -180 && newLon <= 180) {
+						
 
 					} else {
 						Alert alert = new Alert(AlertType.INFORMATION);
