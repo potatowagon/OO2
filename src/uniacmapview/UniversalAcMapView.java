@@ -263,7 +263,8 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 						alert.setHeaderText(null);
 						alert.setContentText("Latitude is between -90 and 90 \nLongitude is between -180 and 180");
 						alert.showAndWait();
-						
+						latInput.setText("" + latitude);
+						lonInput.setText("" + longitude);
 					}
 				}
 
