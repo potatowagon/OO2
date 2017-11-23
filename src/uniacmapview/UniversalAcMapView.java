@@ -74,6 +74,11 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 
 	private double latitude = 48.7433425;
 	private double longitude = 9.3201122;
+	private int searchRadius = 50;
+	
+	private final String URL = "https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json";
+	
+	PlaneDataServer server;
 
 	public static void main(String[] args) {
 		launch(args);
@@ -81,10 +86,8 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 
 	@Override
 	public void start(Stage stage) {
-		String urlString;
-		urlString = "https://public-api.adsbexchange.com/VirtualRadar/AircraftList.json";
 
-		PlaneDataServer server = new PlaneDataServer(urlString, latitude, longitude, 50);
+		server = new PlaneDataServer(URL, latitude, longitude, searchRadius);
 		new Thread(server).start();
 
 		Senser senser = new Senser(server);
@@ -262,9 +265,12 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 					    map.setCenter(latLong);
 					    mapCenter.setPosition(latLong);
 					    selectedAircraftCursor = null;
+					    activeAircrafts.clear();
+					    aircraftList.clear();
+					    server.resetLocation(latitude, longitude, searchRadius);
 					} else {
 						Alert alert = new Alert(AlertType.INFORMATION);
-						alert.setTitle("Dear Dumb User");
+						alert.setTitle("Dear Silly User");
 						alert.setHeaderText(null);
 						alert.setContentText("Latitude is between -90 and 90 \nLongitude is between -180 and 180");
 						alert.showAndWait();
@@ -386,5 +392,4 @@ public class UniversalAcMapView extends Application implements Observer, MapComp
 		map.addMarker(mapCenter);
 		// map.addMarker(myMarker2);
 	}
-
 }
