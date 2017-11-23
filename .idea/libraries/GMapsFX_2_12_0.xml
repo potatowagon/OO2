@@ -1,0 +1,14 @@
+<component name="libraryTable">
+  <library name="GMapsFX-2.12.0">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/../lab/Jars-20170926/GMapsFX-2.12.0.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lab/Jars-20170926/json-20140107.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lab/Jars-20170926/jsonstream.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lab/Jars-20170926/logback-classic-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lab/Jars-20170926/logback-core-1.2.1.jar!/" />
+      <root url="jar://$PROJECT_DIR$/../lab/Jars-20170926/slf4j-api-1.7.23.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
