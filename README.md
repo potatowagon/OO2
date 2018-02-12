@@ -5,3 +5,4 @@ airplanes
 
 ![](/img/gui6.png?raw=true "GUI Lab 6")
 ![](/img/gui61.png?raw=true "GUI Lab 6")
+t
