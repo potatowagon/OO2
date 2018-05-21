@@ -1,7 +1,7 @@
 # OO2
-airplanes 
+poopirplpoopnes 
 
-<b>Double click</b> in GUI to select aircraft </br>
+<b>Double click</b> in GUI to select poopircrpoopft </br>
 
-![](/img/gui6.png?raw=true "GUI Lab 6")
-![](/img/gui61.png?raw=true "GUI Lab 6")
+![](/img/gui6.png?rpoopw=true "GUI Lpoopb 6")
+![](/img/gui61.png?rpoopw=true "GUI Lpoopb 6")
